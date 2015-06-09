@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}
+    Course Schedules &mdash;
+    Academics &mdash;
+    Carthage College
+{% endblock %}
+{% block extra_javascript %}
+    <script>
+    $(function() {
+        {% if not sched %}
+            alert("There was a problem fetching the course shedule data.\n\
+                Please reload the page.");
+        {% endif %}
+    });
+    </script>
+{% endblock %}
+{% block left_nav %}
+    {% include "left_nav.html" %}
+{% endblock %}
+{% block content_head %}
+    <h1 id="page_title">
+        Course Schedules
+        <span id="secondary-dropdown"></span>
+    </h1>
+{% endblock %}
+{% block content %}
+<div class="forms-container large-8 medium-10 small-12">
+{% if sched %}
+    {% for n,v in sched.items %}
+        {% ifchanged v.0 %}
+            {% if forloop.first %}
+                <h2>{{v.0}}</h2>
+                <ul>
+            {% else %}
+                </ul>
+                <h2>{{v.0}}</h2>
+                <ul>
+            {% endif %}
+        {% endifchanged %}
+        {% for obj in v %}
+            {% if not forloop.first %}
+                {% ifchanged obj.sess %}
+                <li>
+                    <a href="{% url 'schedule' obj.program obj.sess obj.yr %}">
+                        {{obj.name}} {{obj.yr}}
+                    </a>
+                </li>
+                {% endifchanged %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </ul>
+{% endif %}
+</div>
+<div class="column2 large-4 medium-6 small-12">
+    <h3>Schedule of Class Periods</h3>
+    <ul>
+        <li>
+            <a href="/academics/class-periods/">See class times</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
