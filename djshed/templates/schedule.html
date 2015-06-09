@@ -1,5 +1,5 @@
 {% extends "home.html" %}
-{% load replace %}
+{% load replace string_time %}
 {% block extra_javascript %}
 {% endblock %}
 {% block content %}
@@ -42,7 +42,8 @@
                 {% endif %}
                 {% if s.beg_tm %}
                     <br />
-                    {{s.beg_tm}}&mdash;{{s.end_tm}}
+                    {% string_time s.beg_tm "%H%M" "%I:%M %p" %} &mdash;
+                    {% string_time s.end_tm "%H%M" "%I:%M %p" %},
                 {% endif %}
                 {% if s.days %}
                     {% replace s.days - "" %}
