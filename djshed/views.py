@@ -9,21 +9,23 @@ from djzbar.utils.informix import do_sql as do_esql
 
 from collections import OrderedDict
 
-SCHED = OrderedDict()
-SCHED["R"] = ["Semester Courses"]
-SCHED["A"] = ["Adult Education 7-Week Courses"]
-SCHED["G"] = ["Graduate Education"]
-#SCHED["T"] = ["Accelerated Certification for Teachers (ACT)"]
-SCHED["P"] = ["Paralegal Program"]
-
 EARL = settings.INFORMIX_EARL
+
+def get_sched():
+    SCHED = OrderedDict()
+    SCHED["R"] = ["Semester Courses"]
+    SCHED["A"] = ["Adult Education 7-Week Courses"]
+    SCHED["G"] = ["Graduate Education"]
+    #SCHED["T"] = ["Accelerated Certification for Teachers (ACT)"]
+    SCHED["P"] = ["Paralegal Program"]
+    return SCHED.copy()
 
 def home(request):
     """
     home page view with list of course types and links to relevant year
     """
 
-    sched = SCHED.copy()
+    sched = get_sched()
     weir = 'AND  sec_rec.sess[1,1] in ("R","A","G","T","P")'
     sql = "{} {} {}".format(SCHEDULE_SQL, weir, SCHEDULE_ORDER_BY)
     objs = do_esql(sql, key=settings.INFORMIX_DEBUG, earl=EARL)
@@ -53,6 +55,7 @@ def schedule(request, program, term, year):
     if not program and not term and not year:
         raise Http404
     else:
+        SCHED = get_sched()
         # dates
         sql = '{} WHERE sess = "{}" AND yr = "{}"'.format(DATES, term, year)
         objs = do_esql(sql, key=settings.INFORMIX_DEBUG, earl=EARL)
