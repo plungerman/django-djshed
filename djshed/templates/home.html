@@ -14,6 +14,7 @@
     });
     </script>
 {% endblock %}
+{% block group_name %}Academics{% endblock %}
 {% block left_nav %}
     {% include "left_nav.html" %}
 {% endblock %}
@@ -23,7 +24,6 @@
         <small class="fright" style="margin-right:20px;">
             <a href="{% url 'home' %}"><i class="fa fa-home fa-2x green"></i></a>
         </small>
-        <span id="secondary-dropdown"></span>
     </h1>
 {% endblock %}
 {% block content %}

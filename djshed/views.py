@@ -14,7 +14,7 @@ EARL = settings.INFORMIX_EARL
 def get_sched():
     SCHED = OrderedDict()
     SCHED["R"] = ["Semester Courses"]
-    SCHED["A"] = ["Adult Education 7-Week Courses"]
+    SCHED["A"] = ["Adult Undergraduate Studies 7-Week Courses"]
     SCHED["G"] = ["Graduate Education"]
     #SCHED["T"] = ["Accelerated Certification for Teachers (ACT)"]
     SCHED["P"] = ["Paralegal Program"]
@@ -63,9 +63,15 @@ def schedule(request, program, term, year):
         title = None
         if objs:
             dates = objs.fetchall()
-            title = "{} <br> {} {}".format(
-                SCHED[program][0], TERM_LIST[term], year
-            )
+            # this will barf if the request is an old URL like /T/TC/2011/
+            # so we raise 404 in that case
+            try:
+                title = "{} <br> {} {}".format(
+                    SCHED[program][0], TERM_LIST[term], year
+                )
+            except:
+                raise Http404
+
             weir = """
                 AND sec_rec.sess = '{}' AND sec_rec.yr = '{}'
                 ORDER BY dept, crs_no, sec_no
