@@ -58,18 +58,10 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.formtools',
     'django.contrib.humanize',
-    'django.contrib.messages',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.staticfiles',
-    'djskeletor',
-    'djskeletor.core',
-    'djskeletor.myapp',
+    'djshed',
+    # needed for template tags, management commands
     'djtools',
 )
 
