@@ -13,6 +13,7 @@ TERM_LIST = {
     "AT": "Summer II",
     "GE": "Summer",
     "GA": "Fall",
+    "GB": "J-Term",
     "TA": "Fall",
     "PA": "Fall",
     "YA": "Fall",
