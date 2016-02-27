@@ -31,9 +31,9 @@ API_URL = "%s/%s" % (SERVER_URL, "api")
 LIVEWHALE_API_URL = "https://%s" % (SERVER_URL)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ROOT_DIR = os.path.dirname(__file__)
-ROOT_URL = "/djskeletor/"
-ROOT_URLCONF = 'djskeletor.core.urls'
-WSGI_APPLICATION = 'djskeletor.wsgi.application'
+ROOT_URL = "/djshed/"
+ROOT_URLCONF = 'djshed.core.urls'
+WSGI_APPLICATION = 'djshed.wsgi.application'
 MEDIA_ROOT = ''
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATIC_ROOT = ''
@@ -49,7 +49,7 @@ DATABASES = {
     'default': {
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'NAME': 'django_djskeletor',
+        'NAME': 'django_djshed',
         'ENGINE': 'django.db.backends.mysql',
         #'ENGINE': 'django.db.backends.dummy',
         'USER': '',
@@ -85,7 +85,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 TEMPLATE_DIRS = (
-    "/data2/django_projects/djskeletor/templates/",
+    "/data2/django_projects/djshed/templates/",
     "/data2/django_templates/djkorra/",
     "/data2/django_templates/djcher/",
     "/data2/django_templates/",
@@ -104,9 +104,9 @@ CACHES = {
         #'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         #'LOCATION': '127.0.0.1:11211',
         #'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        #'LOCATION': '/var/tmp/django_djskeletor_cache',
+        #'LOCATION': '/var/tmp/django_djshed_cache',
         #'TIMEOUT': 60*20,
-        #'KEY_PREFIX': "DJSKELETOR_",
+        #'KEY_PREFIX': "DJSHED_",
         #'OPTIONS': {
         #    'MAX_ENTRIES': 80000,
         #}
@@ -136,13 +136,13 @@ AUTHENTICATION_BACKENDS = (
     'djauth.ldapBackend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-LOGIN_URL = '/djskeletor/accounts/login/'
-LOGIN_REDIRECT_URL = '/djskeletor/'
+LOGIN_URL = '/djshed/accounts/login/'
+LOGIN_REDIRECT_URL = '/djshed/'
 USE_X_FORWARDED_HOST = True
 #SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN=".carthage.edu"
-SESSION_COOKIE_NAME ='django_djskeletor_cookie'
+SESSION_COOKIE_NAME ='django_djshed_cookie'
 SESSION_COOKIE_AGE = 86400
 # SMTP settings
 EMAIL_HOST = ''
@@ -179,10 +179,6 @@ LOGGING = {
         }
     },
     'handlers': {
-        'null': {
-            'level':'DEBUG',
-            'class':'django.utils.log.NullHandler',
-        },
         'logfile': {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
@@ -204,7 +200,7 @@ LOGGING = {
         }
     },
     'loggers': {
-        'djskeletor': {
+        'djshed': {
             'handlers':['logfile'],
             'propagate': True,
             'level':'DEBUG',
