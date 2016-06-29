@@ -1,31 +1,3 @@
-TERM_LIST = {
-    "RA": "Fall",
-    "RB": "J-Term",
-    "RC": "Spring",
-    "RD": "Summer Pre-Session",
-    "RE": "Summer",
-    "AA": "Fall I",
-    "AB": "Fall II ",
-    "AG": "Winter",
-    "AK": "Spring I",
-    "AM": "Spring II",
-    "AS": "Summer I",
-    "AT": "Summer II",
-    "GE": "Summer",
-    "GA": "Fall",
-    "GB": "J-Term",
-    "TA": "Fall",
-    "PA": "Fall",
-    "YA": "Fall",
-    "GC": "Spring",
-    "TC": "Spring",
-    "PC": "Spring",
-    "YC": "Spring",
-    "TE": "Summer",
-    "PE": "Summer",
-    "YE": "Summer"
-}
-
 SCHEDULE_SQL = """
     SELECT
         sec_rec.hrs,

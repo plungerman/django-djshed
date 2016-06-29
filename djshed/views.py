@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 
 from djshed.constants import *
-
+from djzbar.constants import TERM_LIST
 from djzbar.utils.informix import do_sql as do_esql
 
 from collections import OrderedDict
