@@ -80,7 +80,14 @@ def schedule(request, program, term, year):
             objs = do_esql(sql, key=settings.INFORMIX_DEBUG, earl=EARL)
             sched = None
             if objs:
-                sched = objs.fetchall()
+                sched = []
+                for o in objs.fetchall():
+                    d = dict(o)
+                    d['title'] = d['title'].decode('cp1252').encode('utf-8')
+                    d['title1'] = d['title1'].decode('cp1252').encode('utf-8')
+                    d['title2'] = d['title2'].decode('cp1252').encode('utf-8')
+                    d['title3'] = d['title3'].decode('cp1252').encode('utf-8')
+                    sched.append(d)
             return render_to_response(
                 "schedule.html",
                 {"title":title,"dates": dates,"sched":sched},
