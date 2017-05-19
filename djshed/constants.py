@@ -74,6 +74,8 @@ SCHEDULE_SQL = """
         AND  mtg_rec.schd_print <> "N"
         AND  CURRENT  BETWEEN acad_cal_rec.web_display_date
         AND  NVL(acad_cal_rec.web_display_end, CURRENT)
+        AND  NVL(mtg_rec.beg_tm, 0) != 0
+        AND  NVL(mtg_rec.end_tm, 0) != 0
 """
 SCHEDULE_ORDER_BY = "ORDER BY sec_rec.yr, program, sec_rec.sess"
 
