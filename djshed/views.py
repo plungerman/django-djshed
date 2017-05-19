@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.http import  Http404
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 
 from djshed.constants import *
 from djzbar.constants import TERM_LIST
@@ -39,10 +39,8 @@ def home(request):
     else:
         sched = None
 
-    return render_to_response(
-        "home.html",
-        {"sched": sched},
-        context_instance=RequestContext(request)
+    return render(
+        request, 'home.html', {'sched': sched}
     )
 
 def schedule(request, program, term, year):
@@ -88,10 +86,9 @@ def schedule(request, program, term, year):
                     d['title2'] = d['title2'].decode('cp1252').encode('utf-8')
                     d['title3'] = d['title3'].decode('cp1252').encode('utf-8')
                     sched.append(d)
-            return render_to_response(
-                "schedule.html",
-                {"title":title,"dates": dates,"sched":sched},
-                context_instance=RequestContext(request)
+            return render(
+                request, 'schedule.html',
+                {"title":title,"dates": dates,"sched":sched}
             )
         else:
             raise Http404
