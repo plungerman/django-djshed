@@ -11,14 +11,13 @@
         {% ifchanged s.dept_text %}
         <tr>
             <td valign="top" colspan="2" class="dept">
-                <a name="#trim(dept_text)#"></a>
-                <h3>{{s.dept_text}}</h3>
+                <h3 id="{{s.dept_text}}" class="anchor">{{s.dept_text}}</h3>
             </td>
         </tr>
         {% endifchanged %}
         <tr>
             <td valign="top" style="padding:10px 0 0 10px;">
-                <a name="#trim(ref_no)#"></a>{{s.crs_no}}&nbsp;
+                <a name="{{s.ref_no}}"></a>{{s.crs_no}}&nbsp;
                 {% if s.sess|slice:":1" == "G" %}
                     {{s.sess|slice:":1"}}&nbsp;
                 {% endif %}
