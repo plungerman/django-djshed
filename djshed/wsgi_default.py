@@ -3,13 +3,13 @@ import os, sys
 sys.path.append('/usr/lib/python2.7/')
 sys.path.append('/usr/lib/python2.7/dist-packages/')
 sys.path.append('/usr/local/lib/python2.7/dist-packages/')
-sys.path.append('/data2/django_1.8/')
+sys.path.append('/data2/django_1.111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111/')
 sys.path.append('/data2/django_projects/')
 sys.path.append('/data2/django_third/')
 # django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djshed.settings")
-os.environ.setdefault("PYTHON_EGG_CACHE", "/var/cache/python/.python-eggs")
-os.environ.setdefault("TZ", "America/Chicago")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djshed.settings')
+os.environ.setdefault('PYTHON_EGG_CACHE', '/var/cache/python/.python-eggs')
+os.environ.setdefault('TZ', 'America/Chicago')
 # informix
 os.environ['INFORMIXSERVER'] = ''
 os.environ['DBSERVERNAME'] = ''

@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.http import  Http404
-from django.template import RequestContext
 from django.shortcuts import render
 
 from djshed.constants import *
@@ -13,11 +12,11 @@ EARL = settings.INFORMIX_EARL
 
 def get_sched():
     SCHED = OrderedDict()
-    SCHED["R"] = ["Semester Courses"]
-    SCHED["A"] = ["Adult Undergraduate Studies 7-Week Courses"]
-    SCHED["G"] = ["Graduate Education"]
-    #SCHED["T"] = ["Accelerated Certification for Teachers (ACT)"]
-    SCHED["P"] = ["Paralegal Program"]
+    SCHED['R'] = ['Semester Courses']
+    SCHED['A'] = ['Adult Undergraduate Studies 7-Week Courses']
+    SCHED['G'] = ['Graduate Education']
+    #SCHED['T'] = ['Accelerated Certification for Teachers (ACT)']
+    SCHED['P'] = ['Paralegal Program']
     return SCHED.copy()
 
 def home(request):
@@ -27,13 +26,13 @@ def home(request):
 
     sched = get_sched()
     weir = 'AND  sec_rec.sess[1,1] in ("R","A","G","T","P")'
-    sql = "{} {} {}".format(SCHEDULE_SQL, weir, SCHEDULE_ORDER_BY)
+    sql = '{} {} {}'.format(SCHEDULE_SQL, weir, SCHEDULE_ORDER_BY)
     objs = do_esql(sql, key=settings.INFORMIX_DEBUG, earl=EARL)
     if objs:
         for o in objs.fetchall():
             dic = {
-                "sess":o.sess,"name":TERM_LIST[o.sess],
-                "yr":o.yr,"program":o.program
+                'sess':o.sess,'name':TERM_LIST[o.sess],
+                'yr':o.yr,'program':o.program
             }
             sched[o.program].append(dic)
     else:
@@ -64,7 +63,7 @@ def schedule(request, program, term, year):
             # this will barf if the request is an old URL like /T/TC/2011/
             # so we raise 404 in that case
             try:
-                title = "{} <br> {} {}".format(
+                title = '{} <br> {} {}'.format(
                     SCHED[program][0], TERM_LIST[term], year
                 )
             except:
@@ -74,7 +73,7 @@ def schedule(request, program, term, year):
                 AND sec_rec.sess = '{}' AND sec_rec.yr = '{}'
                 ORDER BY dept, crs_no, sec_no
             """.format(term, year)
-            sql = "{} {}".format(SCHEDULE_SQL, weir)
+            sql = '{} {}'.format(SCHEDULE_SQL, weir)
             objs = do_esql(sql, key=settings.INFORMIX_DEBUG, earl=EARL)
             sched = None
             if objs:
@@ -88,7 +87,7 @@ def schedule(request, program, term, year):
                     sched.append(d)
             return render(
                 request, 'schedule.html',
-                {"title":title,"dates": dates,"sched":sched}
+                {'title':title,'dates': dates,'sched':sched}
             )
         else:
             raise Http404

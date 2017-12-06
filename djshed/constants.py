@@ -1,4 +1,4 @@
-SCHEDULE_SQL = """
+SCHEDULE_SQL = '''
     SELECT
         sec_rec.hrs,
         sec_rec.subsess,
@@ -76,13 +76,13 @@ SCHEDULE_SQL = """
         AND  NVL(acad_cal_rec.web_display_end, CURRENT)
         AND  NVL(mtg_rec.beg_tm, 0) != 0
         AND  NVL(mtg_rec.end_tm, 0) != 0
-"""
-SCHEDULE_ORDER_BY = "ORDER BY sec_rec.yr, program, sec_rec.sess"
+'''
+SCHEDULE_ORDER_BY = 'ORDER BY sec_rec.yr, program, sec_rec.sess'
 
-DATES = """
+DATES = '''
     SELECT
         beg_date, end_date, last_add_date, last_drop_date,
         last_wd_date, subsess
     FROM
         acad_cal_rec
-"""
+'''
