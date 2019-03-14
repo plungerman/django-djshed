@@ -47,11 +47,11 @@ STATICFILES_FINDERS = (
 
 DATABASES = {
     'default': {
+        #'ENGINE': 'django.db.backends.mysql',
         'ENGINE': 'django.db.backends.dummy',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'NAME': 'django_djskeletor',
-        #'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django_djforms',
         'USER': '',
         'PASSWORD': ''
     },
