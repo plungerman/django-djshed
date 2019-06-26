@@ -16,7 +16,7 @@ def get_sched():
     SCHED['A'] = ['Adult Undergraduate Studies 7-Week Courses']
     SCHED['G'] = ['Graduate Education']
     #SCHED['T'] = ['Accelerated Certification for Teachers (ACT)']
-    SCHED['P'] = ['Paralegal Program']
+    #SCHED['P'] = ['Paralegal Program']
     return SCHED.copy()
 
 def home(request):
