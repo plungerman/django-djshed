@@ -25,7 +25,7 @@
             </td>
             <td valign="top" style="padding:10px 10px 0 10px;">
                 <strong>
-                    {% if s.title|length > 1 %}{{s.title}}:{% endif %}
+                    {% if s.title|cut:" "|length > 1 %}{{s.title}}{% endif %}
                     {{s.title1}} {{s.title2}} {{s.title3}}
                 </strong>&nbsp;&nbsp;&nbsp; {{s.hrs}}
                 credit{{ s.hrs|pluralize }}
@@ -45,7 +45,7 @@
                     {% string_time s.end_tm "%H%M" "%I:%M %p" %},
                 {% endif %}
                 {% if s.days %}
-                    {% replace s.days - "" %}
+                {{ s.days|cut:"-" }}
                 {% endif %}
                 {% if s.bldg or s.max_reg %}
                     <br />
@@ -70,11 +70,11 @@
         {% if d.subsess %}
             <br /><strong>Subsession {{d.subsess}}<br /></strong>
         {% endif %}
-        Term begin date: {{d.beg_date}}<br />
-        Last date to add: {{d.last_add_date}}<br />
-        Last date to drop: {{d.last_drop_date}}<br />
-        Last date to withdraw: {{d.last_wd_date}}<br />
-        Term end date: {{d.end_date}}<br />
+        Term begin date: {{d.beg_date|date:"M j, Y"}}<br />
+        Last date to add: {{d.last_add_date|date:"M j, Y"}}<br />
+        Last date to drop: {{d.last_drop_date|date:"M j, Y"}}<br />
+        Last date to withdraw: {{d.last_wd_date|date:"M j, Y"}}<br />
+        Term end date: {{d.end_date|date:"M j, Y"}}<br />
     {% endfor %}
     </p>
     <h3>Schedule of Class Periods</h3>

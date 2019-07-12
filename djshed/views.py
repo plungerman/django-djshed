@@ -1,23 +1,22 @@
 from django.conf import settings
 from django.http import  Http404
 from django.shortcuts import render
+from django.core.cache import cache
 
 from djshed.constants import *
-from djzbar.constants import TERM_LIST
-from djzbar.utils.informix import do_sql as do_esql
+from djimix.constants import TERM_LIST
+from djimix.core.utils import get_connection
 
 from collections import OrderedDict
 
-EARL = settings.INFORMIX_EARL
 
 def get_sched():
     SCHED = OrderedDict()
     SCHED['R'] = ['Semester Courses']
     SCHED['A'] = ['Adult Undergraduate Studies 7-Week Courses']
     SCHED['G'] = ['Graduate Education']
-    #SCHED['T'] = ['Accelerated Certification for Teachers (ACT)']
-    #SCHED['P'] = ['Paralegal Program']
     return SCHED.copy()
+
 
 def home(request):
     """
@@ -27,14 +26,20 @@ def home(request):
     sched = get_sched()
     weir = 'AND  sec_rec.sess[1,1] in ("R","A","G","T","P")'
     sql = '{} {} {}'.format(SCHEDULE_SQL, weir, SCHEDULE_ORDER_BY)
-    objs = do_esql(sql, key=settings.INFORMIX_DEBUG, earl=EARL)
+
+    connection = get_connection()
+    cursor = connection.cursor()
+    objs = cursor.execute(sql)
+
     if objs:
-        for o in objs.fetchall():
+        for o in objs:
+            sess = o[10].strip()
+            program = o[11].strip()
             dic = {
-                'sess':o.sess,'name':TERM_LIST[o.sess],
-                'yr':o.yr,'program':o.program
+                'sess':sess,'name':TERM_LIST[sess],
+                'yr':o[9],'program':program
             }
-            sched[o.program].append(dic)
+            sched[program].append(dic)
     else:
         sched = None
 
@@ -42,7 +47,8 @@ def home(request):
         request, 'home.html', {'sched': sched}
     )
 
-def schedule(request, program, term, year):
+
+def schedule(request, program, term, year, content_type='html'):
     """
     Display the full course schedule for all classes given:
     program
@@ -52,14 +58,26 @@ def schedule(request, program, term, year):
     if not program and not term and not year:
         raise Http404
     else:
-        SCHED = get_sched()
-        # dates
-        sql = '{} WHERE sess = "{}" AND yr = "{}"'.format(DATES, term, year)
-        objs = do_esql(sql, key=settings.INFORMIX_DEBUG, earl=EARL)
-        dates = None
+        # open database connection
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        key = 'schedule_{}_{}_{}_{}_api'.format(year, term, program, content_type)
+        objs = cache.get(key)
+        if not objs:
+            SCHED = get_sched()
+            # dates
+            sql = '{} WHERE sess = "{}" AND yr = "{}"'.format(DATES, term, year)
+            dates = cursor.execute(sql)
+            columns = [column[0] for column in dates.description]
+            results = []
+            for row in dates.fetchall():
+                results.append(dict(zip(columns, row)))
+            dates = results
+
         title = None
-        if objs:
-            dates = objs.fetchall()
+        if dates:
+            #cache.set(key, dates, timeout=86400)
             # this will barf if the request is an old URL like /T/TC/2011/
             # so we raise 404 in that case
             try:
@@ -74,17 +92,16 @@ def schedule(request, program, term, year):
                 ORDER BY dept, crs_no, sec_no
             """.format(term, year)
             sql = '{} {}'.format(SCHEDULE_SQL, weir)
-            objs = do_esql(sql, key=settings.INFORMIX_DEBUG, earl=EARL)
-            sched = None
-            if objs:
-                sched = []
-                for o in objs.fetchall():
-                    d = dict(o)
-                    d['title'] = d['title'].decode('cp1252').encode('utf-8')
-                    d['title1'] = d['title1'].decode('cp1252').encode('utf-8')
-                    d['title2'] = d['title2'].decode('cp1252').encode('utf-8')
-                    d['title3'] = d['title3'].decode('cp1252').encode('utf-8')
-                    sched.append(d)
+            sched = cursor.execute(sql)
+            columns = [column[0] for column in sched.description]
+            results = []
+            for row in sched.fetchall():
+                results.append(dict(zip(columns, row)))
+            sched = results
+            # close our database cursor and connection
+            cursor.close()
+            connection.close()
+
             return render(
                 request, 'schedule.html',
                 {'title':title,'dates': dates,'sched':sched}
