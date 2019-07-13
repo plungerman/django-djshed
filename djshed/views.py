@@ -102,10 +102,18 @@ def schedule(request, program, term, year, content_type='html'):
             cursor.close()
             connection.close()
 
-            return render(
-                request, 'schedule.html',
-                {'title':title,'dates': dates,'sched':sched}
-            )
+            if content_type == 'html':
+                response = render(
+                    request, 'schedule.html',
+                    {'title':title,'dates': dates,'sched':sched}
+                )
+            else:
+                response = render(
+                    request, 'schedule.json.html', {'sched':sched,},
+                    content_type='application/json; charset=utf-8'
+                )
+
+            return response
         else:
             raise Http404
 

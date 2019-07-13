@@ -1,3 +1,4 @@
+from django.urls import path, re_path
 from django.conf.urls import url
 
 from djshed import views
@@ -7,12 +8,13 @@ handler500 = 'djtools.views.errors.server_error'
 
 
 urlpatterns = [
-    url(
-        r'^(?P<program>[-\w]+)/(?P<term>[-\w]+)/(?P<year>\d+)/$',
+    re_path(
+        r'^(?P<program>[-\w]+)/(?P<term>[-\w]+)/(?P<year>\d+)/(?P<content_type>[-\w]+)/',
         views.schedule, name='schedule'
     ),
-    url(
-        r'^$',
-        views.home, name='home'
+    re_path(
+        r'^(?P<program>[-\w]+)/(?P<term>[-\w]+)/(?P<year>\d+)/',
+        views.schedule, name='schedule'
     ),
+    path('', views.home, name='home'),
 ]
