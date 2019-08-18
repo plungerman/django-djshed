@@ -39,7 +39,10 @@ def home(request):
                 'sess':sess,'name':TERM_LIST[sess],
                 'yr':o[9],'program':program
             }
-            sched[program].append(dic)
+            try:
+                sched[program].append(dic)
+            except:
+                pass
     else:
         sched = None
 
