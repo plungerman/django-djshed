@@ -5,7 +5,7 @@ from django.core.cache import cache
 
 from djshed.constants import *
 from djimix.constants import TERM_LIST
-from djimix.core.utils import get_connection
+from djimix.core.database import get_connection
 
 from collections import OrderedDict
 
