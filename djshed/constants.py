@@ -72,22 +72,20 @@ SCHEDULE_SQL = '''
         AND  sec_rec.print_schd <> "N"
         AND  sec_rec.stat <> "SEC_STAT_CANCEL"
         AND  mtg_rec.schd_print <> "N"
-        AND acad_cal_rec.web_display_date >= MDY(6, 1,
+        AND YEAR(acad_cal_rec.web_display_date) >=
         CASE
           WHEN
-            month(CURRENT) > 7
+            month(CURRENT) > 8
           THEN
-            YEAR(TODAY- 1 UNITS YEAR)
-          ELSE
             YEAR(TODAY)
+          ELSE
+            YEAR(TODAY- 1 UNITS YEAR)
         END
-        )
-        --AND  CURRENT  BETWEEN acad_cal_rec.web_display_date
-        --AND  NVL(acad_cal_rec.web_display_end, CURRENT)
+        AND  acad_cal_rec.web_display_end >= CURRENT
         AND  NVL(mtg_rec.beg_tm, 0) != 0
         AND  NVL(mtg_rec.end_tm, 0) != 0
 '''
-SCHEDULE_ORDER_BY = 'ORDER BY sec_rec.yr, program, sec_rec.sess'
+SCHEDULE_ORDER_BY = 'ORDER BY sec_rec.yr DESC, program, sec_rec.sess'
 
 DATES = '''
     SELECT
