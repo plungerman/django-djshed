@@ -3,7 +3,8 @@ from django.http import  Http404
 from django.shortcuts import render
 from django.core.cache import cache
 
-from djshed.constants import *
+from djshed.constants import SCHEDULE_SQL
+from djshed.constants import DATES
 from djimix.constants import TERM_LIST
 from djimix.core.database import get_connection, xsql
 
@@ -24,32 +25,23 @@ def home(request):
     """
 
     sched = get_sched()
-    weir = 'AND  sec_rec.sess[1,1] in ("R","A","G","T","P")'
-    sql = '{} {} {}'.format(SCHEDULE_SQL, weir, SCHEDULE_ORDER_BY)
-
     connection = get_connection()
-    # automatically closes the connection after leaving 'with' block
     with connection:
-        objs = xsql(sql, connection)
+        courses = xsql(SCHEDULE_SQL, connection)
 
-        if objs:
-            for o in objs:
-                sess = o[10].strip()
-                program = o[11].strip()
+        if courses:
+            for course in courses:
+                sess = course[10].strip()
+                program = course[11].strip()
                 dic = {
                     'sess':sess,'name':TERM_LIST[sess],
-                    'yr':o[9],'program':program
+                    'yr':course[9],'program':program,
                 }
-                try:
-                    sched[program].append(dic)
-                except:
-                    pass
+                sched[program].append(dic)
         else:
             sched = None
 
-    return render(
-        request, 'home.html', {'sched': sched}
-    )
+    return render(request, 'home.html', {'sched': sched})
 
 
 def schedule(request, program, term, year, content_type='html'):
@@ -127,4 +119,3 @@ def schedule(request, program, term, year, content_type='html'):
                 return response
             else:
                 raise Http404
-
