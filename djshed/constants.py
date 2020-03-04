@@ -75,7 +75,7 @@ SCHEDULE_SQL = '''
         AND YEAR(acad_cal_rec.web_display_date) <=
         CASE
         WHEN
-            month(CURRENT) > 8
+            month(CURRENT) > 4
         THEN
             YEAR(TODAY)
         ELSE
@@ -84,7 +84,7 @@ SCHEDULE_SQL = '''
         AND YEAR(acad_cal_rec.web_display_date) >=
         CASE
         WHEN
-            month(CURRENT) > 8
+            month(CURRENT) > 4
         THEN
             YEAR(TODAY)
         ELSE
