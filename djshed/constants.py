@@ -75,25 +75,33 @@ SCHEDULE_SQL = '''
         AND YEAR(acad_cal_rec.web_display_date) <=
         CASE
         WHEN
-            month(CURRENT) > 4
+            month(CURRENT) > 3
         THEN
             YEAR(TODAY)
+        WHEN
+            month(CURRENT) > 9
+        THEN
+            YEAR(TODAY +1 UNITS YEAR)
         ELSE
             YEAR(TODAY - 1 UNITS YEAR)
         END
         AND YEAR(acad_cal_rec.web_display_date) >=
         CASE
         WHEN
-            month(CURRENT) > 4
+            month(CURRENT) > 3
         THEN
             YEAR(TODAY)
+        WHEN
+            month(CURRENT) > 9
+        THEN
+            YEAR(TODAY +1 UNITS YEAR)
         ELSE
             YEAR(TODAY - 1 UNITS YEAR)
         END
         AND  NVL(mtg_rec.beg_tm, 0) != 0
         AND  NVL(mtg_rec.end_tm, 0) != 0
         AND  sec_rec.sess[1,1] in ("R","A","G","T","P")
-        ORDER BY sec_rec.yr DESC, program, sec_rec.sess
+    ORDER BY sec_rec.yr DESC, program, sec_rec.sess
 '''
 
 DATES = '''
