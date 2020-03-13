@@ -12,6 +12,7 @@ from collections import OrderedDict
 
 
 def get_sched():
+    """Create the schedule dictionary."""
     SCHED = OrderedDict()
     SCHED['R'] = ['Semester Courses']
     SCHED['A'] = ['Adult Undergraduate Studies 7-Week Courses']
@@ -20,14 +21,15 @@ def get_sched():
 
 
 def home(request):
-    """
-    home page view with list of course types and links to relevant year
-    """
-
+    """Home page view with list of course types and links to relevant year."""
     sched = get_sched()
     connection = get_connection()
+    sql = """
+        {0} AND  sec_rec.sess[1,1] in ("R","A","G","T","P")
+        ORDER BY sec_rec.yr DESC, program, sec_rec.sess
+    """.format(SCHEDULE_SQL)
     with connection:
-        courses = xsql(SCHEDULE_SQL, connection)
+        courses = xsql(sql, connection)
 
         if courses:
             for course in courses:
@@ -46,10 +48,12 @@ def home(request):
 
 def schedule(request, program, term, year, content_type='html'):
     """
-    Display the full course schedule for all classes given:
-    program
-    term
-    year
+    Display the full course schedule for all classesn.
+
+    Required:
+        program
+        term
+        year
     """
     if not program and not term and not year:
         raise Http404
@@ -59,13 +63,13 @@ def schedule(request, program, term, year, content_type='html'):
         # automatically closes the connection after leaving 'with' block
         with connection:
             SCHED = get_sched()
-            key = 'dates_{}_{}_{}_{}_api'.format(
+            key = 'dates_{0}_{1}_{2}_{3}_api'.format(
                 year, term, program, content_type
             )
             dates = cache.get(key)
             if not dates:
                 # dates
-                sql = '{} WHERE sess = "{}" AND yr = "{}"'.format(
+                sql = '{0} WHERE sess = "{1}" AND yr = "{2}"'.format(
                     DATES, term, year
                 )
                 dates = xsql(sql, connection)
@@ -81,22 +85,22 @@ def schedule(request, program, term, year, content_type='html'):
                 # this will barf if the request is an old URL like /T/TC/2011/
                 # so we raise 404 in that case
                 try:
-                    title = '{} <br> {} {}'.format(
+                    title = '{0} <br> {1} {2}'.format(
                         SCHED[program][0], TERM_LIST[term], year
                     )
                 except:
                     raise Http404
 
-                key = 'schedule_{}_{}_{}_{}_api'.format(
-                    year, term, program, content_type
+                key = 'schedule_{0}_{1}_{2}_{3}_api'.format(
+                    year, term, program, content_type,
                 )
                 sched = cache.get(key)
                 if not sched:
                     weir = """
-                        AND sec_rec.sess = '{}' AND sec_rec.yr = '{}'
+                        AND sec_rec.sess = '{0}' AND sec_rec.yr = '{1}'
                         ORDER BY dept, crs_no, sec_no
                     """.format(term, year)
-                    sql = '{} {}'.format(SCHEDULE_SQL, weir)
+                    sql = '{0} {1}'.format(SCHEDULE_SQL, weir)
                     sched = xsql(sql, connection)
                     columns = [column[0] for column in sched.description]
                     results = []
