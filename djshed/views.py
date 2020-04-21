@@ -78,7 +78,7 @@ def schedule(request, program, term, year, content_type='html'):
                 for row in dates.fetchall():
                     results.append(dict(zip(columns, row)))
                 dates = results
-                cache.set(key, dates, timeout=604800)
+                cache.set(key, dates)
 
             title = None
             if dates:
@@ -107,7 +107,7 @@ def schedule(request, program, term, year, content_type='html'):
                     for row in sched.fetchall():
                         results.append(dict(zip(columns, row)))
                     sched = results
-                    cache.set(key, sched, timeout=604800)
+                    cache.set(key, sched)
 
                 if content_type == 'html':
                     response = render(
