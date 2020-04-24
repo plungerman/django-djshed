@@ -24,10 +24,38 @@ def home(request):
     """Home page view with list of course types and links to relevant year."""
     sched = get_sched()
     connection = get_connection()
+    weir = """
+        AND YEAR(acad_cal_rec.web_display_date) <=
+        CASE
+        WHEN
+            month(CURRENT) > 3
+        THEN
+            YEAR(TODAY)
+        WHEN
+            month(CURRENT) > 9
+        THEN
+            YEAR(TODAY +1 UNITS YEAR)
+        ELSE
+            YEAR(TODAY - 1 UNITS YEAR)
+        END
+        AND YEAR(acad_cal_rec.web_display_date) >=
+        CASE
+        WHEN
+            month(CURRENT) > 3
+        THEN
+            YEAR(TODAY)
+        WHEN
+            month(CURRENT) > 9
+        THEN
+            YEAR(TODAY +1 UNITS YEAR)
+        ELSE
+            YEAR(TODAY - 1 UNITS YEAR)
+        END
+    """
     sql = """
         {0} AND  sec_rec.sess[1,1] in ("R","A","G","T","P")
         ORDER BY sec_rec.yr DESC, program, sec_rec.sess
-    """.format(SCHEDULE_SQL)
+    """.format(SCHEDULE_SQL(where=weir))
     with connection:
         courses = xsql(sql, connection)
 
@@ -39,7 +67,10 @@ def home(request):
                     'sess':sess,'name':TERM_LIST[sess],
                     'yr':course[9],'program':program,
                 }
-                sched[program].append(dic)
+                try:
+                    sched[program].append(dic)
+                except:
+                    pass
         else:
             sched = None
 
@@ -48,7 +79,7 @@ def home(request):
 
 def schedule(request, program, term, year, content_type='html'):
     """
-    Display the full course schedule for all classesn.
+    Display the full course schedule for all classes.
 
     Required:
         program
@@ -98,9 +129,10 @@ def schedule(request, program, term, year, content_type='html'):
                 if not sched:
                     weir = """
                         AND sec_rec.sess = '{0}' AND sec_rec.yr = '{1}'
-                        ORDER BY dept, crs_no, sec_no
                     """.format(term, year)
-                    sql = '{0} {1}'.format(SCHEDULE_SQL, weir)
+                    sql = '{0} {1}'.format(
+                        SCHEDULE_SQL(where=weir), 'ORDER BY dept, crs_no, sec_no',
+                    )
                     sched = xsql(sql, connection)
                     columns = [column[0] for column in sched.description]
                     results = []

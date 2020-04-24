@@ -72,35 +72,10 @@ SCHEDULE_SQL = '''
         AND  sec_rec.print_schd <> "N"
         AND  sec_rec.stat <> "SEC_STAT_CANCEL"
         AND  mtg_rec.schd_print <> "N"
-        AND YEAR(acad_cal_rec.web_display_date) <=
-        CASE
-        WHEN
-            month(CURRENT) > 3
-        THEN
-            YEAR(TODAY)
-        WHEN
-            month(CURRENT) > 9
-        THEN
-            YEAR(TODAY +1 UNITS YEAR)
-        ELSE
-            YEAR(TODAY - 1 UNITS YEAR)
-        END
-        AND YEAR(acad_cal_rec.web_display_date) >=
-        CASE
-        WHEN
-            month(CURRENT) > 3
-        THEN
-            YEAR(TODAY)
-        WHEN
-            month(CURRENT) > 9
-        THEN
-            YEAR(TODAY +1 UNITS YEAR)
-        ELSE
-            YEAR(TODAY - 1 UNITS YEAR)
-        END
+        {where}
         AND  NVL(mtg_rec.beg_tm, 0) != 0
         AND  NVL(mtg_rec.end_tm, 0) != 0
-'''
+'''.format
 
 DATES = '''
     SELECT
