@@ -31,9 +31,6 @@ SCHEDULE_SQL = '''
         mtg_rec.end_date end_date_2,
         (dept_table.txt) dept_text,
         (div_table.txt) div_text,
-        schd_comment_rec.remark,
-        schd_comment_rec.line_no,
-        schd_comment_rec.ofcl,
         acad_cal_rec.beg_date beg_date_1,
         acad_cal_rec.end_date end_date_1
     FROM
@@ -44,7 +41,6 @@ SCHEDULE_SQL = '''
         acad_cal_rec,
         id_rec,
         outer (secmtg_rec, outer mtg_rec),
-        outer schd_comment_rec,
         outer fac_rec
     WHERE
         sec_rec.fac_id = id_rec.id
@@ -57,11 +53,6 @@ SCHEDULE_SQL = '''
         AND  sec_rec.sess = secmtg_rec.sess
         AND  sec_rec.sec_no = secmtg_rec.sec_no
         AND  secmtg_rec.mtg_no = mtg_rec.mtg_no
-        AND  sec_rec.crs_no = schd_comment_rec.crs_no
-        AND  sec_rec.cat = schd_comment_rec.cat
-        AND  sec_rec.yr = schd_comment_rec.yr
-        AND  sec_rec.sess = schd_comment_rec.sess
-        AND  sec_rec.sec_no = schd_comment_rec.sec_no
         AND  sec_rec.stat NOT IN ("X", "I")
         AND  crs_rec.dept = dept_table.dept
         AND  dept_table.div = div_table.div
