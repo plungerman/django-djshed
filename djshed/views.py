@@ -23,7 +23,6 @@ def get_sched():
 def home(request):
     """Home page view with list of course types and links to relevant year."""
     sched = get_sched()
-    connection = get_connection()
     weir = """
         AND YEAR(acad_cal_rec.web_display_date) <=
         CASE
@@ -56,7 +55,7 @@ def home(request):
         {0} AND  sec_rec.sess[1,1] in ("R","A","G","T","P")
         ORDER BY sec_rec.yr DESC, program, sec_rec.sess
     """.format(SCHEDULE_SQL(where=weir))
-    with connection:
+    with get_connection() as connection:
         courses = xsql(sql, connection)
 
         if courses:
@@ -89,10 +88,7 @@ def schedule(request, program, term, year, content_type='html'):
     if not program and not term and not year:
         raise Http404
     else:
-        # open database connection
-        connection = get_connection()
-        # automatically closes the connection after leaving 'with' block
-        with connection:
+        with get_connection() as connection:
             SCHED = get_sched()
             key = 'dates_{0}_{1}_{2}_{3}_api'.format(
                 year, term, program, content_type
