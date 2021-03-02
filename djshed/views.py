@@ -53,7 +53,17 @@ def home(request):
     """
     sql = """
         {0} AND  sec_rec.sess[1,1] in ("R","A","G","T","P")
-        ORDER BY sec_rec.yr DESC, program, sec_rec.sess
+        ORDER BY
+        sec_rec.yr DESC,
+        program,
+        (
+            CASE sec_rec.sess
+            WHEN 'RC' THEN 1
+            WHEN 'RB' THEN 2
+            WHEN 'RE' THEN 3
+            WHEN 'RA' THEN 4 
+            END
+        ) ASC
     """.format(SCHEDULE_SQL(where=weir))
     with get_connection() as connection:
         courses = xsql(sql, connection)
