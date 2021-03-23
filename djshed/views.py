@@ -24,35 +24,11 @@ def home(request):
     """Home page view with list of course types and links to relevant year."""
     sched = get_sched()
     weir = """
-        AND YEAR(acad_cal_rec.web_display_date) <=
-        CASE
-        WHEN
-            month(CURRENT) > 3
-        THEN
-            YEAR(TODAY)
-        WHEN
-            month(CURRENT) > 9
-        THEN
-            YEAR(TODAY +1 UNITS YEAR)
-        ELSE
-            YEAR(TODAY - 1 UNITS YEAR)
-        END
-        AND YEAR(acad_cal_rec.web_display_date) >=
-        CASE
-        WHEN
-            month(CURRENT) > 3
-        THEN
-            YEAR(TODAY)
-        WHEN
-            month(CURRENT) > 9
-        THEN
-            YEAR(TODAY +1 UNITS YEAR)
-        ELSE
-            YEAR(TODAY - 1 UNITS YEAR)
-        END
+        AND web_display_date <= today
+        AND web_display_end >= today
     """
     sql = """
-        {0} AND  sec_rec.sess[1,1] in ("R","A","G","T","P")
+        {0} AND sec_rec.sess[1,1] in ("R","A","G","T","P")
         ORDER BY
         sec_rec.yr DESC,
         program,
@@ -61,7 +37,7 @@ def home(request):
             WHEN 'RC' THEN 1
             WHEN 'RB' THEN 2
             WHEN 'RE' THEN 3
-            WHEN 'RA' THEN 4 
+            WHEN 'RA' THEN 4
             END
         ) ASC
     """.format(SCHEDULE_SQL(where=weir))
