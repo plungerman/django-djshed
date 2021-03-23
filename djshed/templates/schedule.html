@@ -1,4 +1,5 @@
 {% extends "home.html" %}
+{% load livewhale_api %}
 {% load replace string_time %}
 {% block extra_javascript %}
 {% endblock %}
@@ -64,24 +65,7 @@
     </table>
 </div>
 <div class="column2 large-4 medium-6 small-12">
-    <h3>Important Dates</h3>
-    <p id="datebox">
-    {% for d in dates %}
-        {% if d.subsess %}
-            <br /><strong>Subsession {{d.subsess}}<br /></strong>
-        {% endif %}
-        Term begin date: {{d.beg_date|date:"M j, Y"}}<br />
-        Last date to add: {{d.last_add_date|date:"M j, Y"}}<br />
-        Last date to drop: {{d.last_drop_date|date:"M j, Y"}}<br />
-        Last date to withdraw: {{d.last_wd_date|date:"M j, Y"}}<br />
-        Term end date: {{d.end_date|date:"M j, Y"}}<br />
-    {% endfor %}
-    </p>
-    <h3>Schedule of Class Periods</h3>
-    <ul>
-        <li>
-            <a href="/academics/class-periods/">See class times</a>
-        </li>
-    </ul>
+{% get_lw_content as dates blurbs 3050 %}
+{{dates.body}}
 </div>
 {% endblock %}
