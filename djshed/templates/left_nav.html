@@ -1,51 +1,8 @@
-<nav id="secondary-navigation">
-  <div>
-  <ul class="lw_widget_results lw_widget_results_navigation">
-    <li class="lw_item_1 lw_files_php lw_item_70ea5f1b">
-      <a href="https://www.carthage.edu/academics/">Academics</a>
-    </li>
-    <li class="lw_item_2 lw_files_php lw_item_6ff7510e">
-      <a href="https://www.carthage.edu/academics/carthage-plan/">The Carthage Plan</a>
-    </li>
-    <li class="lw_item_8 lw_files_php lw_item_b5b001fb">
-      <a href="https://www.carthage.edu/academics/graduation-guarantee/">4 Year Graduation Guarantee</a>
-    </li>
-    <li class="lw_item_10 lw_files_php lw_item_70ea5f1b">
-      <a href="https://www.carthage.edu/academics/">Areas of Study</a>
-    </li>
-    <li class="lw_item_15 lw_files_php lw_item_463a3a74">
-      <a href="https://www.carthage.edu/about/faculty/">Meet Our Faculty</a>
-    </li>
-    <li class="lw_item_16 lw_files_php lw_item_43386e2e">
-      <a href="https://www.carthage.edu/academics/experiential-learning/">Experiential Learning</a>
-    </li>
-    <li class="lw_item_17 lw_files_php lw_item_068f2051">
-      <a href="https://www.carthage.edu/academics/student-resources/">Resources and Support</a>
-    </li>
-    <li class="lw_item_22 lw_files_php lw_item_8cafe33d">
-      <a href="https://www.carthage.edu/academics/centers-institutes/">Centers and Institutes</a>
-    </li>
-    <li class="lw_item_23 lw_files_php lw_item_d1a3d8ab">
-      <a href="https://www.carthage.edu/academics/divisions/">Divisions and Departments</a>
-    </li>
-    <li class="lw_item_29 lw_files_php lw_item_1aa841ec">
-      <a href="https://www.carthage.edu/academics/calendar/">Academic Calendar</a>
-    </li>
-    <li class="lw_item_38 lw_files_php lw_item_c8eb1a8e">
-      <a href="https://www.carthage.edu/academics/policies/">Academic Policies</a>
-    </li>
-    <li class="lw_item_50 lw_files_php lw_item_3f5195fc">
-      <a href="https://www.carthage.edu/academics/final-exam-schedule/">Final Exam Schedule</a>
-    </li>
-    <li class="lw_item_51 lw_files_php lw_item_36e039b9">
-      <a href="https://www.carthage.edu/academics/catalog/">College Catalog</a>
-    </li>
-    <li class="lw_item_52 lw_files_php lw_item_4b198ceb">
-      <a href="https://www.carthage.edu/academics/class-periods/">Class Periods</a>
-    </li>
-    <li class="lw_item_53 lw_item_4fa483d6">
-      <a href="https://www.carthage.edu/academics/schedule/">Course Schedules</a>
-    </li>
-  </ul>
-  </div>
-</nav>
+{% load livewhale_api %}
+{% get_lw_content as nav blurbs 3223 %}
+<ul>
+  <li>
+    <a href="/academics/" class="lw_group_link fancy-link">Academics<span class="fancy-link__icon" aria-hidden="true">›</span></a>
+    {{nav.body|safe}}
+  </li>
+</ul>

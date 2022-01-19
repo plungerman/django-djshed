@@ -98,7 +98,7 @@ def schedule(request, program, term, year, content_type='html'):
                 # this will barf if the request is an old URL like /T/TC/2011/
                 # so we raise 404 in that case
                 try:
-                    title = '{0} <br> {1} {2}'.format(
+                    title = '{0}: {1} {2}'.format(
                         SCHED[program][0], TERM_LIST[term], year
                     )
                 except:

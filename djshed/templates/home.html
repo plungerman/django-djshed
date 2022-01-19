@@ -1,42 +1,47 @@
 {% extends "base.html" %}
 {% block title %}
-    Course Schedules &mdash;
-    Academics &mdash;
-    Carthage College
+  Course Schedules &mdash;
+  Academics &mdash;
+  Carthage College
 {% endblock %}
-{% block extra_javascript %}
-    <script>
-    $(function() {
-        {% if not sched %}
-            alert("There was a problem fetching the course shedule data.\n\
-                Please reload the page.");
-        {% endif %}
-    });
-    </script>
+{% block extra_style %}
+  {{block.super}}
+  <link href="//app.carthage.edu/themes/shared/css/icons.css"
+    type="text/css" rel="stylesheet">
+  <link href="//app.carthage.edu/themes/shared/css/forms.css"
+    rel="stylesheet" type="text/css">
+  <link href="//app.carthage.edu/themes/shared/css/tables.css"
+    rel="stylesheet" type="text/css">
 {% endblock %}
-{% block group_name %}Academics{% endblock %}
 {% block left_nav %}
-    {% include "left_nav.html" %}
+  {% include "left_nav.html" %}
 {% endblock %}
 {% block content_head %}
-    <h1 id="page_title">
-        Course Schedules
-        <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'home' %}"><i class="fa fa-home fa-2x green"></i></a>
-        </small>
-    </h1>
+<h1>
+  Course Schedules
+  <a href="{% url 'home' %}"><i class="fa fa-home fa-4x green" style="float:right;"></i></a>
+</h1>
 {% endblock %}
+{% block breadcrumb %}
+<li>
+  <a href="https://www.carthage.edu/academics/">Academics</a>
+</li>
+<li>
+  <a href="https://app.carthage.edu/schedule/" aria-current="page">Course Schedules</a>
+</li>
+{% endblock breadcrumb %}
 {% block content %}
-<div class="forms-container large-8 medium-10 small-12">
+{% spaceless %}
+<div class="forms-container">
 {% if sched %}
     {% for n,v in sched.items %}
         {% ifchanged v.0 %}
             {% if forloop.first %}
-                <h2>{{v.0}}</h2>
+                <h3>{{v.0}}</h3>
                 <ul>
             {% else %}
                 </ul>
-                <h2>{{v.0}}</h2>
+                <h3>{{v.0}}</h3>
                 <ul>
             {% endif %}
         {% endifchanged %}
@@ -55,12 +60,5 @@
     </ul>
 {% endif %}
 </div>
-<div class="column2 large-4 medium-6 small-12">
-    <h3>Schedule of Class Periods</h3>
-    <ul>
-        <li>
-            <a href="/academics/class-periods/">See class times</a>
-        </li>
-    </ul>
-</div>
+{% endspaceless %}
 {% endblock %}
