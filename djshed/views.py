@@ -31,6 +31,7 @@ def home(request):
         {0} AND sec_rec.sess[1,1] in ("R","A","G","T","P")
         ORDER BY
         sec_rec.yr DESC,
+        sec_rec.sess,
         program,
         (
             CASE sec_rec.sess
