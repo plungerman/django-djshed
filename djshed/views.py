@@ -72,11 +72,20 @@ def schedule(request, program, term, year, content_type='html'):
         term
         year
     """
+    SCHED = get_sched()
     if not program and not term and not year:
         raise Http404
+    elif int(year) > 2022 and term not in  ('GC', 'RC'):
+        courses = Course.objects.all()
+        title = '{0}: {1} {2}'.format(
+            SCHED[program][0], TERM_LIST[term], year
+        )
+        response = render(
+            request, 'schedule.api.html',
+            {'title': title, 'dates': dates, 'courses': courses}
+        )
     else:
         with get_connection() as connection:
-            SCHED = get_sched()
             key = 'dates_{0}_{1}_{2}_{3}_api'.format(
                 year, term, program, content_type
             )

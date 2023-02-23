@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 SCHEDULE_SQL = '''
     SELECT
         sec_rec.hrs,
@@ -11,28 +13,20 @@ SCHEDULE_SQL = '''
         sec_rec.cat,
         sec_rec.yr,
         sec_rec.sess,
-        sec_rec.sess[1,1] program,
+        sec_rec.sess[1,1] program, --only used for alphabetical listing
         sec_rec.sec_no,
         sec_rec.ref_no,
         crs_rec.dept,
         TRIM(crs_rec.title1) as title1,
         TRIM(crs_rec.title2) as title2,
         TRIM(crs_rec.title3) as title3,
-        crs_rec.min_hrs,
-        crs_rec.max_hrs,
         mtg_rec.beg_tm,
         mtg_rec.end_tm,
         mtg_rec.mtg_no,
         mtg_rec.days,
-        mtg_rec.campus,
         mtg_rec.bldg,
         mtg_rec.room,
-        mtg_rec.beg_date beg_date_2,
-        mtg_rec.end_date end_date_2,
-        (dept_table.txt) dept_text,
-        (div_table.txt) div_text,
-        acad_cal_rec.beg_date beg_date_1,
-        acad_cal_rec.end_date end_date_1
+        (dept_table.txt) dept_text
     FROM
         sec_rec,
         crs_rec,

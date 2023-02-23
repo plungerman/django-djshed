@@ -1,0 +1,66 @@
+{% extends "home.html" %}
+{% load livewhale_api %}
+{% load replace string_time %}
+{% block extra_javascript %}
+{% endblock %}
+{% block content %}
+<h3>{{title|safe}}</h3>
+<div class="table-responsive">
+    <table class="table display table-hover">
+        {% for s in sched %}
+        {% ifchanged s.dept_text %}
+        <tr>
+            <td valign="top" colspan="2" class="dept">
+                <h3 id="{{s.dept_text}}" class="anchor">{{s.dept_text}}</h3>
+            </td>
+        </tr>
+        {% endifchanged %}
+        <tr>
+            <td valign="top" style="padding:10px 0 0 10px;">
+                <a name="{{s.ref_no}}"></a>{{s.crs_no}}&nbsp;
+                {% if s.sess|slice:":1" == "G" %}
+                    {{s.sess|slice:":1"}}&nbsp;
+                {% endif %}
+                {{s.sec_no}}
+            </td>
+            <td valign="top" style="padding:10px 10px 0 10px;">
+                <strong>
+                    {% if s.title|cut:" "|length > 1 %}{{s.title}}{% endif %}
+                    {{s.title1}} {{s.title2}} {{s.title3}}
+                </strong>&nbsp;&nbsp;&nbsp; {{s.hrs}}
+                credit{{ s.hrs|pluralize }}
+            </td>
+        </tr>
+
+        <tr>
+            <td valign="top" style="padding-bottom:10px;">&nbsp;</td>
+            <td valign="top" style="padding:0 10px 10px 10px;">
+                Instructor: {{s.sec_fac_abbr_name}}
+                {% if s.remark %}
+                    <br />Description: {{s.remark}}
+                {% endif %}
+                {% if s.beg_tm %}
+                    <br />
+                    {% string_time s.beg_tm "%H%M" "%I:%M %p" %} &mdash;
+                    {% string_time s.end_tm "%H%M" "%I:%M %p" %},
+                {% endif %}
+                {% if s.days %}
+                {{ s.days|cut:"-" }}
+                {% endif %}
+                {% if s.bldg or s.max_reg %}
+                    <br />
+                    {% if s.bldg and s.bldg != "ARR" %}
+                        Location: {{s.bldg}} {{s.room}} &nbsp;&nbsp;&nbsp;
+                    {% endif %}
+                    {% if s.max_reg %}
+                        Capacity: {{s.max_reg}}
+                    {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+
+        {% endfor %}
+        <tr><td colspan="2" height="25" class="noprint">&nbsp;</td></tr>
+    </table>
+</div>
+{% endblock %}
