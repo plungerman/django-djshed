@@ -5,6 +5,10 @@
 {% endblock %}
 {% block content %}
 <h3>{{title|safe}}</h3>
+<h2>sched</h2>
+<pre>
+{{sched}}
+</pre>
 <div class="table-responsive">
     <table class="table display table-hover">
         {% for s in sched %}

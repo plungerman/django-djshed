@@ -1,14 +1,16 @@
+# -*- coding: utf-8 -*-
+
+from collections import OrderedDict
 from django.conf import settings
 from django.http import  Http404
 from django.shortcuts import render
 from django.core.cache import cache
 
-from djshed.constants import SCHEDULE_SQL
-from djshed.constants import DATES
 from djimix.constants import TERM_LIST
 from djimix.core.database import get_connection, xsql
-
-from collections import OrderedDict
+from djshed.constants import SCHEDULE_SQL
+from djshed.constants import DATES
+from djshed.models import Course
 
 
 def get_sched():
@@ -76,13 +78,13 @@ def schedule(request, program, term, year, content_type='html'):
     if not program and not term and not year:
         raise Http404
     elif int(year) > 2022 and term not in  ('GC', 'RC'):
-        courses = Course.objects.all()
+        courses = Course.objects.all().order_by('department', 'number', 'section')
         title = '{0}: {1} {2}'.format(
             SCHED[program][0], TERM_LIST[term], year
         )
         response = render(
             request, 'schedule.api.html',
-            {'title': title, 'dates': dates, 'courses': courses}
+            {'title': title, 'dates': None, 'sched': courses},
         )
     else:
         with get_connection() as connection:
@@ -136,14 +138,13 @@ def schedule(request, program, term, year, content_type='html'):
                 if content_type == 'html':
                     response = render(
                         request, 'schedule.html',
-                        {'title':title,'dates': dates,'sched':sched}
+                        {'title': title, 'dates': dates, 'sched': sched}
                     )
                 else:
                     response = render(
                         request, 'schedule.json.html', {'sched':sched,},
                         content_type='application/json; charset=utf-8'
                     )
-
-                return response
             else:
                 raise Http404
+    return response
