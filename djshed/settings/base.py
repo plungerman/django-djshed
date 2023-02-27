@@ -60,10 +60,10 @@ STATICFILES_FINDERS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'NAME': 'django_{0}'.format(PROJECT_APP),
-        'ENGINE': 'django.db.backends.mysql',
         'USER': 'django_{0}'.format(PROJECT_APP),
         'PASSWORD': '',
         'OPTIONS': {

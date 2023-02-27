@@ -71,9 +71,9 @@ def get_courses(test=False):
         settings.WORKDAY_EARL,
         auth=(settings.WORKDAY_USERNAME, settings.WORKDAY_PASSWORD),
     )
+    print(response)
     jason = response.json()
     report = jason['Report_Entry']
-    print(test)
     for course in report:
         if test:
             print(course)
