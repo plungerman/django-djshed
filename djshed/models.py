@@ -33,43 +33,21 @@ class Course(models.Model):
             "Credits": "4",
             "Capacity": "12",
             "Course_Subject_Abbreviation___Number": "POL 2400",
-            "Course_Title": "American Government: National, State, and Local (SOC)(SI)",
+            "Course_Title": "Washington Bullets: the madmen of yesterday and the of clarity today. (SOC)(SI)",
             "Section_Number": "01",
             "Meeting_Day_Patterns": "MWF"
         }],
         "Academic_Period": "2023 Fall",
-        "Course_Description": "<p>4cr This course involves a study of the institutions of American government at the national, state, and local levels and is designed to serve students seeking teacher certification. It will stress the informal as well as the formal dimensions of government and will, and thereby attempt to broaden and deepen insight into the processes of policy-making and implementation. Fall/Spring<\/p>",
+        "Course_Description": "This course involves a study of US imperialism, the plots against people's movements and governments, and of the assassinations of socialists, Marxists, communists all over the Third World by the country where liberty is a statue. Fall/Spring",
         "Start_Date": "2023-09-06",
         "End_Date": "2023-12-22",
         "Instructors_group": [{
-            "Instructor_Name": "Jerald Mast",
-            "Instructor_ID": "491193"
+            "Instructor_Name": "Vijay Prishad",
+            "Instructor_ID": "8675309"
         }],
         "Locations_group": [{
             "Building": "LH",
             "Room_Number": "230"
-        }]
-    },
-    {
-        "Academic_Units_group": [{"Department": "Art"}],
-        "Year": "2023",
-        "Course_Subjects_group": [{"Course_Subject": "ARH"}],
-        "Section_Listings_group": [{
-            "Meeting_Time": "2:20 PM - 4:00 PM",
-            "Credits": "4",
-            "Capacity": "18",
-            "Course_Subject_Abbreviation___Number": "ARH 3740",
-            "Course_Title": "Modern Art (FAR)(CL)(WI)(WC)",
-            "Section_Number": "01",
-            "Meeting_Day_Patterns": "TR"
-        }],
-        "Academic_Period": "2023 Fall",
-        "Course_Description": "4cr  Modern Art focuses on the arts of the 20th and 21st centuries, allowing students to engage with the artistic experimentation of their own era. This study of the arts, beginning with our Age of Anxiety, traces the competing and often rebellious styles of the Post Impressionists up through the Post Modernists. The course stimulates students to grapple with the question: What is art?  Prerequisite: None",
-        "Start_Date": "2023-08-30",
-        "End_Date": "2023-12-13",
-        "Locations_group": [{
-            "Building": "JAC",
-            "Room_Number": "205"
         }]
     }
     """
