@@ -26,18 +26,31 @@ def set_course(jason):
         "Course_Description": "4cr  Modern Art focuses on the arts of the 20th and 21st centuries, allowing students to engage with the artistic experimentation of their own era. This study of the arts, beginning with our Age of Anxiety, traces the competing and often rebellious styles of the Post Impressionists up through the Post Modernists. The course stimulates students to grapple with the question: What is art?  Prerequisite: None",
         "Start_Date": "2023-08-30",
         "End_Date": "2023-12-13",
+        "Instructors_group": [{
+            "Instructor_Name": "Karl Marx",
+            "Instructor_ID": "91025"
+        }],
         "Locations_group": [{
             "Building": "JAC",
             "Room_Number": "205"
         }]
     '''
+
+    building = None
+    room = None
     location = jason.get('Locations_group')
     if location:
         building = jason['Locations_group'][0].get('Building')
         room = jason['Locations_group'][0].get('Room_Number')
-    else:
-        building = None
-        room = None
+
+    instructors = None
+    instructors_group = jason.get('Instructors_group')
+    if instructors_group:
+        instructors = []
+        for instructor in instructors_group:
+            instructors.append(instructor.get('Instructor_Name'))
+        if instructors:
+            instructors = ', '.join(instructors)
 
     course, created = Course.objects.update_or_create(
         # Art
@@ -56,6 +69,7 @@ def set_course(jason):
         description = jason.get('Course_Description'),
         start_date = jason.get('Start_Date'),
         end_date = jason.get('End_Date'),
+        instructors = instructors,
         building = building,
         room = room,
         status = True,
