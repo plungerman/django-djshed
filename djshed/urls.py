@@ -10,12 +10,14 @@ handler500 = 'djtools.views.errors.server_error'
 
 urlpatterns = [
     path(
-        '<str:program>/<str:term>/<str:year>/<str:content_type>/',
-        views.schedule, name='schedule',
+        '<str:program>/<str:term>/<str:year>/',
+        views.schedule,
+        name='schedule',
     ),
     path(
         '<str:program>/<str:term>/<str:year>/',
-        views.schedule, name='schedule',
+        views.schedule,
+        name='schedule',
     ),
     path('', views.home, name='home'),
 ]

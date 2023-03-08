@@ -65,7 +65,7 @@ def home(request):
     return render(request, 'home.html', {'sched': sched})
 
 
-def schedule(request, program, term, year, content_type='html'):
+def schedule(request, program, term, year):
     """
     Display the full course schedule for all classes.
 
@@ -75,6 +75,7 @@ def schedule(request, program, term, year, content_type='html'):
         year
     """
     SCHED = get_sched()
+    content_type = 'html'
     if not program and not term and not year:
         raise Http404
     elif int(year) > 2022 and term not in  ('GC', 'RC'):
