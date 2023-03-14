@@ -32,32 +32,33 @@
 {% endblock breadcrumb %}
 {% block content %}
 {% spaceless %}
-<div class="forms-container">
+<div>
 {% if sched %}
-    {% for n,v in sched.items %}
-        {% ifchanged v.0 %}
-            {% if forloop.first %}
-                <h3>{{v.0}}</h3>
-                <ul>
-            {% else %}
-                </ul>
-                <h3>{{v.0}}</h3>
-                <ul>
-            {% endif %}
+  {% for n,v in sched.items %}
+    {% ifchanged v.0 %}
+      {% if forloop.first %}
+        <h3>{{v.0}}</h3>
+        <ul>
+          <li>Fall 2023</li>
+      {% else %}
+        </ul>
+        <h3>{{v.0}}</h3>
+        <ul>
+      {% endif %}
+    {% endifchanged %}
+    {% for obj in v %}
+      {% if not forloop.first %}
+        {% ifchanged obj.sess %}
+        <li>
+          <a href="{% url 'schedule' obj.program obj.sess obj.yr %}">
+            {{obj.name}} {{obj.yr}}
+          </a>
+        </li>
         {% endifchanged %}
-        {% for obj in v %}
-            {% if not forloop.first %}
-                {% ifchanged obj.sess %}
-                <li>
-                    <a href="{% url 'schedule' obj.program obj.sess obj.yr %}">
-                        {{obj.name}} {{obj.yr}}
-                    </a>
-                </li>
-                {% endifchanged %}
-            {% endif %}
-        {% endfor %}
+      {% endif %}
     {% endfor %}
-    </ul>
+  {% endfor %}
+  </ul>
 {% endif %}
 </div>
 {% endspaceless %}

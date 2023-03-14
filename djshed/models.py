@@ -22,10 +22,11 @@ class Department(models.Model):
 class Course(models.Model):
     """
     Data class model for course data.
-
+    Public_Notes
     API JSON structure:
     {
         "Academic_Units_group": [{"Department": "Political Science"}],
+        "Special_Topic": "Marxism Leninism",
         "Year": "2023",
         "Course_Subjects_group": [{"Course_Subject": "POL"}],
         "Section_Listings_group": [{
@@ -41,6 +42,7 @@ class Course(models.Model):
         "Course_Description": "This course involves a study of US imperialism, the plots against people's movements and governments, and of the assassinations of socialists, Marxists, communists all over the Third World by the country where liberty is a statue. Fall/Spring",
         "Start_Date": "2023-09-06",
         "End_Date": "2023-12-22",
+        "Public_Notes": "This course involves a study of US imperialism, the plots against people's movements and governments, and of the assassinations of socialists, Marxists, communists all over the Third World by the country where liberty is a statue. Fall/Spring",
         "Instructors_group": [{
             "Instructor_Name": "Vijay Prishad",
             "Instructor_ID": "8675309"
@@ -66,7 +68,7 @@ class Course(models.Model):
     description = models.TextField(null=True, blank=True)
     start_date = models.DateField("Start Date")
     end_date = models.DateField("End Date")
-    instructors = models.CharField(max_length=255, null=True, blank=True)
+    instructors = models.CharField(max_length=255, null=True, blank=True, default='')
     building = models.CharField(max_length=32, null=True, blank=True)
     room = models.CharField(max_length=8, null=True, blank=True)
     status = models.BooleanField(default=True)

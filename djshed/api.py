@@ -10,30 +10,32 @@ def set_course(jason):
     """Construct a course object from API data."""
 
     '''
-        "Academic_Units_group": [{"Department": "Art"}],
-        "Year": "2023",
-        "Course_Subjects_group": [{"Course_Subject": "ARH"}],
-        "Section_Listings_group": [{
-            "Meeting_Time": "2:20 PM - 4:00 PM",
-            "Credits": "4",
-            "Capacity": "18",
-            "Course_Subject_Abbreviation___Number": "ARH 3740",
-            "Course_Title": "Modern Art (FAR)(CL)(WI)(WC)",
-            "Section_Number": "01",
-            "Meeting_Day_Patterns": "TR"
-        }],
-        "Academic_Period": "2023 Fall",
-        "Course_Description": "4cr  Modern Art focuses on the arts of the 20th and 21st centuries, allowing students to engage with the artistic experimentation of their own era. This study of the arts, beginning with our Age of Anxiety, traces the competing and often rebellious styles of the Post Impressionists up through the Post Modernists. The course stimulates students to grapple with the question: What is art?  Prerequisite: None",
-        "Start_Date": "2023-08-30",
-        "End_Date": "2023-12-13",
-        "Instructors_group": [{
-            "Instructor_Name": "Karl Marx",
-            "Instructor_ID": "91025"
-        }],
-        "Locations_group": [{
-            "Building": "JAC",
-            "Room_Number": "205"
-        }]
+    "Academic_Units_group": [{"Department": "Political Science"}],
+    "Special_Topic": "Marxism Leninism",
+    "Year": "2023",
+    "Course_Subjects_group": [{"Course_Subject": "POL"}],
+    "Section_Listings_group": [{
+        "Meeting_Time": "9:15 AM - 10:20 AM",
+        "Credits": "4",
+        "Capacity": "12",
+        "Course_Subject_Abbreviation___Number": "POL 2400",
+        "Course_Title": "Washington Bullets: the madmen of yesterday and the of clarity today. (SOC)(SI)",
+        "Section_Number": "01",
+        "Meeting_Day_Patterns": "MWF"
+    }],
+    "Academic_Period": "2023 Fall",
+    "Course_Description": "This course involves a study of US imperialism, the plots against people's movements and governments, and of the assassinations of socialists, Marxists, communists all over the Third World by the country where liberty is a statue. Fall/Spring",
+    "Start_Date": "2023-09-06",
+    "End_Date": "2023-12-22",
+    "Public_Notes": "This course involves a study of US imperialism, the plots against people's movements and governments, and of the assassinations of socialists, Marxists, communists all over the Third World by the country where liberty is a statue. Fall/Spring",
+    "Instructors_group": [{
+        "Instructor_Name": "Vijay Prishad",
+        "Instructor_ID": "8675309"
+    }],
+    "Locations_group": [{
+        "Building": "LH",
+        "Room_Number": "230"
+    }]
     '''
 
     building = None
@@ -52,6 +54,16 @@ def set_course(jason):
         if instructors:
             instructors = ', '.join(instructors)
 
+    title = jason['Section_Listings_group'][0].get('Course_Title')
+    topic = jason.get('Special_Topic')
+    if topic:
+        title = '{0} {1}'.format(title, topic)
+
+    description = jason.get('Course_Description')
+    notes = jason.get('Public_Notes')
+    if notes:
+        description = notes
+
     course, created = Course.objects.update_or_create(
         # Art
         department = jason['Academic_Units_group'][0].get('Department'),
@@ -61,12 +73,12 @@ def set_course(jason):
         credits = jason['Section_Listings_group'][0].get('Credits'),
         capacity = jason['Section_Listings_group'][0].get('Capacity'),
         number = jason['Section_Listings_group'][0].get('Course_Subject_Abbreviation___Number'),
-        title = jason['Section_Listings_group'][0].get('Course_Title'),
+        title = title,
         section = jason['Section_Listings_group'][0].get('Section_Number'),
         days = jason['Section_Listings_group'][0].get('Meeting_Day_Patterns'),
         time = jason['Section_Listings_group'][0].get('Meeting_Time'),
         term = jason.get('Academic_Period'),
-        description = jason.get('Course_Description'),
+        description = description,
         start_date = jason.get('Start_Date'),
         end_date = jason.get('End_Date'),
         instructors = instructors,

@@ -38,7 +38,7 @@
             <td valign="top" style="padding:0 10px 10px 10px;">
                 Instructor: {{s.sec_fac_abbr_name}}
                 {% if s.remark %}
-                    <br />Description: {{s.remark}}
+                    <br />Description: {{s.remark|safe}}
                 {% endif %}
                 {% if s.beg_tm %}
                     <br />

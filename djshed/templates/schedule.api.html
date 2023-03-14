@@ -25,9 +25,10 @@
     <tr>
       <td valign="top" style="padding-bottom:10px;">&nbsp;</td>
       <td valign="top" style="padding:10px;">
-        Instructor: {{s.sec_fac_abbr_name}}
+          Instructor:
+          {% if s.instructors %}{{s.instructors|default_if_none:''}}{% endif %}
         {% if s.description %}
-          <br>Description: {{s.description}}
+          <br>Description: {{s.description|striptags}}
         {% endif %}
         {% if s.time %}
           <br>
