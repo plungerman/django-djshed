@@ -28,7 +28,7 @@
           Instructor:
           {% if s.instructors %}{{s.instructors|default_if_none:''}}{% endif %}
         {% if s.description %}
-          <br>Description: {{s.description|striptags}}
+          <br>Description: {{s.description|safe}}
         {% endif %}
         {% if s.time %}
           <br>
