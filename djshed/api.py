@@ -57,7 +57,7 @@ def set_course(jason):
     title = jason['Section_Listings_group'][0].get('Course_Title')
     topic = jason.get('Special_Topic')
     if topic:
-        title = '{0} {1}'.format(title, topic)
+        title = '{0}: {1}'.format(title, topic)
 
     description = jason.get('Course_Description')
     notes = jason.get('Public_Notes')
