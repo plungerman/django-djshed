@@ -78,7 +78,7 @@ def schedule(request, program, term, year):
     content_type = 'html'
     if not program and not term and not year:
         raise Http404
-    elif int(year) > 2022 and term not in  ('GC', 'RC'):
+    elif int(year) > 2022 and term not in  ('GC', 'RC', 'RB'):
         courses = Course.objects.all().order_by('department', 'number', 'section')
         title = '{0}: {1} {2}'.format(
             SCHED[program][0], TERM_LIST[term], year
