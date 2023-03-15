@@ -50,7 +50,8 @@ def set_course(jason):
     if instructors_group:
         instructors = []
         for instructor in instructors_group:
-            instructors.append(instructor.get('Instructor_Name'))
+            name = instructor.get('Instructor_Name').split(' (')[0]
+            instructors.append(name)
         if instructors:
             instructors = ', '.join(instructors)
 
