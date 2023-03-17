@@ -76,13 +76,18 @@ def schedule(request, program, term, year):
     """
     SCHED = get_sched()
     content_type = 'html'
+    program = program.upper()
+    term = term.upper()
     if not program and not term and not year:
         raise Http404
     elif int(year) > 2022 and term not in  ('GC', 'RC', 'RB'):
         courses = Course.objects.all().order_by('department', 'number', 'section')
-        title = '{0}: {1} {2}'.format(
-            SCHED[program][0], TERM_LIST[term], year
-        )
+        try:
+            title = '{0}: {1} {2}'.format(
+                SCHED[program][0], TERM_LIST[term], year
+            )
+        except Exception:
+            raise Http404
         response = render(
             request, 'schedule.api.html',
             {'title': title, 'dates': None, 'sched': courses},
