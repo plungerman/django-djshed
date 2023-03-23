@@ -7,7 +7,7 @@ from django.conf import settings
 
 
 DEPARTMENT_EXCEPTIONS = {
-    'AHS': 'Allied Health',
+    'AHS': 'Allied Health Science',
 }
 
 
