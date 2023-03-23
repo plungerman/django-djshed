@@ -6,10 +6,15 @@ from djshed.models import Course
 from django.conf import settings
 
 
+DEPARTMENT_EXCEPTIONS = {
+    'AHS': 'Allied Health',
+}
+
+
 def set_course(jason):
     """Construct a course object from API data."""
 
-    '''
+    """
     "Academic_Units_group": [{"Department": "Political Science"}],
     "Special_Topic": "Marxism Leninism",
     "Year": "2023",
@@ -36,7 +41,13 @@ def set_course(jason):
         "Building": "LH",
         "Room_Number": "230"
     }]
-    '''
+    """
+
+    number = jason['Section_Listings_group'][0].get('Course_Subject_Abbreviation___Number')
+    code = number.split(' ')[0]
+    department = jason['Academic_Units_group'][0].get('Department')
+    if code and DEPARTMENT_EXCEPTIONS.get(code):
+        department = DEPARTMENT_EXCEPTIONS[code]
 
     building = None
     room = None
@@ -67,13 +78,13 @@ def set_course(jason):
 
     course, created = Course.objects.update_or_create(
         # Art
-        department = jason['Academic_Units_group'][0].get('Department'),
+        department = department,
         # ARH
         group = jason['Course_Subjects_group'][0].get('Course_Subject'),
         year = jason.get('Year'),
         credits = jason['Section_Listings_group'][0].get('Credits'),
         capacity = jason['Section_Listings_group'][0].get('Capacity'),
-        number = jason['Section_Listings_group'][0].get('Course_Subject_Abbreviation___Number'),
+        number = number,
         title = title,
         section = jason['Section_Listings_group'][0].get('Section_Number'),
         days = jason['Section_Listings_group'][0].get('Meeting_Day_Patterns'),
