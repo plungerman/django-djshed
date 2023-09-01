@@ -32,8 +32,8 @@ parser.add_argument(
 
 def main():
     """Fetch the workday people data from API."""
-    # destroy
-    Course.objects.all().delete()
+    # reset status
+    Course.objects.all().update(status=False)
     for course in get_courses(test=test):
         print(course)
 

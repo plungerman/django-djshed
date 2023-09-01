@@ -76,20 +76,25 @@ def set_course(jason):
     if notes:
         description = notes
 
+    # course number
+    # section
+    # term
     course, created = Course.objects.update_or_create(
+        number = number,
+        section = jason['Section_Listings_group'][0].get('Section_Number'),
+        term = jason.get('Academic_Period'),
+        year = jason.get('Year'),
+    )
+    Course.objects.filter(id=course.id).update(
         # Art
         department = department,
         # ARH
         group = jason['Course_Subjects_group'][0].get('Course_Subject'),
-        year = jason.get('Year'),
         credits = jason['Section_Listings_group'][0].get('Credits'),
         capacity = jason['Section_Listings_group'][0].get('Capacity'),
-        number = number,
         title = title,
-        section = jason['Section_Listings_group'][0].get('Section_Number'),
         days = jason['Section_Listings_group'][0].get('Meeting_Day_Patterns'),
         time = jason['Section_Listings_group'][0].get('Meeting_Time'),
-        term = jason.get('Academic_Period'),
         description = description,
         start_date = jason.get('Start_Date'),
         end_date = jason.get('End_Date'),
@@ -98,6 +103,7 @@ def set_course(jason):
         room = room,
         status = True,
     )
+    #course.save()
 
     return course
 
