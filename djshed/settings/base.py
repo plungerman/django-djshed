@@ -82,10 +82,6 @@ INSTALLED_APPS = (
     # apps
     'djshed',
     'djtools',
-    # honeypot for admin attacks
-    'admin_honeypot',
-    # sign in as a user
-    'loginas',
 )
 MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
