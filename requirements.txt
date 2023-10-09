@@ -1,8 +1,7 @@
-django==3.2.18
-django-admin-honeypot
-django-loginas
+django==4.2.5
 mysqlclient
 cryptography
+pymemcache
 pyodbc
 python-ldap
 python-memcached
