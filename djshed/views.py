@@ -17,7 +17,7 @@ def get_sched():
     """Create the schedule dictionary."""
     SCHED = OrderedDict()
     SCHED['R'] = ['Semester Courses']
-    SCHED['A'] = ['Adult Undergraduate Studies 7-Week Courses']
+    SCHED['A'] = ['7-Week Courses']
     SCHED['G'] = ['Graduate Education']
     return SCHED.copy()
 
@@ -80,14 +80,20 @@ def schedule(request, program, term, year):
     term = term.upper()
     if not program and not term and not year:
         raise Http404
-    elif int(year) > 2022 and term not in  ('GB', 'GC', 'GE', 'RC', 'RB', 'RE'):
-        courses = Course.objects.all().order_by('department', 'number', 'section')
+    elif int(year) > 2022 and term not in ('GE', 'RE'):
+        term = TERM_LIST[term.upper()]
         try:
             title = '{0}: {1} {2}'.format(
-                SCHED[program][0], TERM_LIST[term], year
+                SCHED[program][0], term, year
             )
         except Exception:
             raise Http404
+        term = '{0} {1}'.format(year, term)
+        courses = Course.objects.filter(
+            year=year,
+        ).filter(
+            term=term,
+        ).order_by('department', 'number', 'section')
         response = render(
             request, 'schedule.api.html',
             {'title': title, 'dates': None, 'sched': courses},

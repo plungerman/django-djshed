@@ -27,39 +27,23 @@
   <a href="https://www.carthage.edu/academics/">Academics</a>
 </li>
 <li>
-  <a href="https://app.carthage.edu/schedule/" aria-current="page">Course Schedules</a>
+  <a href="/schedule/" aria-current="page">Course Schedules</a>
 </li>
 {% endblock breadcrumb %}
 {% block content %}
 {% spaceless %}
 <div>
-{% if sched %}
-  {% for n,v in sched.items %}
-    {% ifchanged v.0 %}
-      {% if forloop.first %}
-        <h3>{{v.0}}</h3>
-        <ul>
-          <li><a href="https://app.carthage.edu/schedule/R/RA/2023/">Fall 2023</a></li>
-      {% else %}
-        </ul>
-        <h3>{{v.0}}</h3>
-        <ul>
-      {% endif %}
-    {% endifchanged %}
-    {% for obj in v %}
-      {% if not forloop.first %}
-        {% ifchanged obj.sess %}
-        <li>
-          <a href="{% url 'schedule' obj.program obj.sess obj.yr %}">
-            {{obj.name}} {{obj.yr}}
-          </a>
-        </li>
-        {% endifchanged %}
-      {% endif %}
-    {% endfor %}
-  {% endfor %}
+  <h3>Semester Courses</h3>
+  <ul>
+    <li><a href="/schedule/R/RC/2024/">Spring 2024</a></li>
+    <li><a href="/schedule/R/RB/2024/">J-Term 2024</a></li>
+    <li><a href="/schedule/R/RA/2023/">Fall 2023</a></li>
   </ul>
-{% endif %}
+  <h3>7-Week Courses</h3>
+  <ul>
+    <li><a href="/schedule/A/AK/2024/">Spring 1st 7 weeks 2024</a></li>
+    <li><a href="/schedule/A/AM/2024/">Spring 2nd 7 weeks 2024</a></li>
+  </ul>
 </div>
 {% endspaceless %}
 {% endblock %}
