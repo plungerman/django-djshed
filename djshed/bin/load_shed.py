@@ -32,10 +32,11 @@ parser.add_argument(
 
 def main():
     """Fetch the workday people data from API."""
-    # reset status
-    Course.objects.all().update(status=False)
-    for course in get_courses(test=test):
-        print(course)
+    current_courses = Course.objects.filter(status=True)
+    api_courses = get_courses(test=test)
+    for course in current_courses:
+        if course not in api_courses:
+            course.delete()
 
 
 if __name__ == '__main__':

@@ -5,7 +5,6 @@ from django.conf import settings
 from django.http import  Http404
 from django.shortcuts import render
 from django.core.cache import cache
-
 from djimix.constants import TERM_LIST
 from djimix.core.database import get_connection, xsql
 from djshed.constants import SCHEDULE_SQL

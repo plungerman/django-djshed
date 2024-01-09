@@ -77,15 +77,24 @@ def set_course(jason):
     if notes:
         description = notes
 
+    # first we fetch the course or create it if it does not exist based on:
+    #
     # course number
     # section
     # term
+    #
+    # which together will return only 1 course or None and thus create it.
+    #
+    section = jason['Section_Listings_group'][0].get('Section_Number')
+    if len(section) > 2:
+        section = section[:-1]
     course, created = Course.objects.update_or_create(
         number = number,
-        section = jason['Section_Listings_group'][0].get('Section_Number'),
+        section = section,
         term = jason.get('Academic_Period'),
         year = jason.get('Year'),
     )
+    # now we update the course with the remainder of the values from API
     Course.objects.filter(id=course.id).update(
         # Art
         department = department,
@@ -104,7 +113,6 @@ def set_course(jason):
         room = room,
         status = True,
     )
-    #course.save()
 
     return course
 
@@ -116,7 +124,6 @@ def get_courses(test=False):
         settings.WORKDAY_EARL,
         auth=(settings.WORKDAY_USERNAME, settings.WORKDAY_PASSWORD),
     )
-    print(response)
     jason = response.json()
     report = jason['Report_Entry']
     for course in report:
