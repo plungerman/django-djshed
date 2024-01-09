@@ -23,6 +23,12 @@ parser = argparse.ArgumentParser(
     description=desc, formatter_class=argparse.RawTextHelpFormatter,
 )
 parser.add_argument(
+    '--new_term',
+    action='store_true',
+    help="Are the API data for new term(s)?",
+    dest='new_term',
+)
+parser.add_argument(
     '--test',
     action='store_true',
     help="Dry run?",
@@ -32,19 +38,26 @@ parser.add_argument(
 
 def main():
     """Fetch the workday people data from API."""
-    current_courses = Course.objects.filter(status=True)
-    api_courses = get_courses(test=test)
-    for course in current_courses:
-        if course not in api_courses:
-            course.delete()
+    if new_term:
+        # for new terms, we set all course status to False and
+        # then fetch the new courses from API which then have a
+        # status of True.
+        Course.objects.all().update(status=False)
+        api_courses = get_courses(test=test)
+    else:
+        # we fetch all of the courses for the current term(s)
+        # and compare them to the courses from the API.
+        # if a course no longer appears in the API data,
+        # we remove it from the local database.
+        current_courses = Course.objects.filter(status=True)
+        api_courses = get_courses(test=test)
+        for course in current_courses:
+            if course not in api_courses:
+                course.delete()
 
 
 if __name__ == '__main__':
     args = parser.parse_args()
+    new_term = args.new_term
     test = args.test
-    if test:
-        test = True
-    else:
-        test = False
-
     sys.exit(main())
