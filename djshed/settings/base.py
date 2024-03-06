@@ -288,7 +288,6 @@ WORKDAY_PASSWORD = ''
 WORKDAY_EARL = ''
 WORKDAY_CACHE_KEY = ''
 
-
 ##################
 # LOCAL SETTINGS #
 ##################
