@@ -77,6 +77,9 @@ def schedule(request, program, term, year):
     content_type = 'html'
     program = program.upper()
     term = term.upper()
+    # deal with old requests like:
+    # /schedule/R/RC/2014&method%3Ddetail&dept%3D_GFW/
+    year = year[0:4]
     if not program and not term and not year:
         raise Http404
     elif int(year) > 2022 and term not in ('GE', 'RE'):
