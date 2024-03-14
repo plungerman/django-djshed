@@ -23,45 +23,7 @@ def get_sched():
 
 def home(request):
     """Home page view with list of course types and links to relevant year."""
-    sched = get_sched()
-    weir = """
-        AND web_display_date <= today
-        AND web_display_end >= today
-    """
-    sql = """
-        {0} AND sec_rec.sess[1,1] in ("R","A","G","T","P")
-        ORDER BY
-        sec_rec.yr DESC,
-        sec_rec.sess,
-        program,
-        (
-            CASE sec_rec.sess
-            WHEN 'RC' THEN 1
-            WHEN 'RB' THEN 2
-            WHEN 'RE' THEN 3
-            WHEN 'RA' THEN 4
-            END
-        ) ASC
-    """.format(SCHEDULE_SQL(where=weir))
-    with get_connection() as connection:
-        courses = xsql(sql, connection)
-
-        if courses:
-            for course in courses:
-                sess = course[10].strip()
-                program = course[11].strip()
-                dic = {
-                    'sess':sess,'name':TERM_LIST[sess],
-                    'yr':course[9],'program':program,
-                }
-                try:
-                    sched[program].append(dic)
-                except:
-                    pass
-        else:
-            sched = None
-
-    return render(request, 'home.html', {'sched': sched})
+    return render(request, 'home.html', {})
 
 
 def schedule(request, program, term, year):
