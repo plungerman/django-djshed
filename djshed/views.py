@@ -44,7 +44,7 @@ def schedule(request, program, term, year):
     year = year[0:4]
     if not program and not term and not year:
         raise Http404
-    elif int(year) > 2022 and term not in ('GE', 'RE'):
+    elif int(year) > 2022 and term != 'GE':
         term = TERM_LIST[term.upper()]
         try:
             title = '{0}: {1} {2}'.format(
