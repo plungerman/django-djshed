@@ -82,6 +82,8 @@ INSTALLED_APPS = (
     # apps
     'djshed',
     'djtools',
+    # gmail api for send mail
+    'gmailapi_backend',
 )
 MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
@@ -171,16 +173,17 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN = ''
 SESSION_COOKIE_NAME = 'django_{0}_cookie'.format(PROJECT_APP)
 SESSION_COOKIE_AGE = 86400
-# SMTP settings
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_FAIL_SILENTLY = True
+# gmail API settings
+EMAIL_FROM = ''
+GMAIL_USER = ''
+EMAIL_BACKEND = 'gmailapi_backend.service.GmailApiBackend'
+GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+GMAIL_SERVICE_ACCOUNT_JSON = ''
+GOOGLE_SERVICE_ACCOUNT = ''
+# system emails
 DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
-SERVER_MAIL = ''
+SERVER_MAIL=''
 # logging
 LOG_FILEPATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs/',
