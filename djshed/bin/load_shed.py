@@ -37,7 +37,7 @@ parser.add_argument(
 
 
 def main():
-    """Fetch the workday people data from API."""
+    """Fetch the workday course data from API."""
     if new_term:
         # for new terms, we set all course status to False and
         # then fetch the new courses from API which then have a

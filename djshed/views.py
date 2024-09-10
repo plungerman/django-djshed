@@ -56,7 +56,7 @@ def schedule(request, program, term, year):
         courses = Course.objects.filter(
             year=year,
         ).filter(
-            term=term,
+            term__contains=term,
         ).order_by('department', 'number', 'section')
         response = render(
             request, 'schedule.api.html',
