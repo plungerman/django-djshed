@@ -6,7 +6,7 @@ from django.http import  Http404
 from django.shortcuts import render
 from django.core.cache import cache
 from djimix.constants import TERM_LIST
-from djimix.core.database import get_connection, xsql
+#from djimix.core.database import get_connection, xsql
 from djshed.constants import SCHEDULE_SQL
 from djshed.constants import DATES
 from djshed.models import Course
@@ -63,6 +63,7 @@ def schedule(request, program, term, year):
             {'title': title, 'dates': None, 'sched': courses},
         )
     else:
+        '''
         with get_connection() as connection:
             key = 'dates_{0}_{1}_{2}_{3}_api'.format(
                 year, term, program, content_type
@@ -123,4 +124,6 @@ def schedule(request, program, term, year):
                     )
             else:
                 raise Http404
+            '''
+        raise Http404
     return response

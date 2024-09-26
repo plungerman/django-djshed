@@ -1,10 +1,11 @@
 {% extends "home.html" %}
-{% load livewhale_api %}
+{% load livewhale_api cache %}
 {% load replace string_time %}
 {% block extra_javascript %}
 {% endblock %}
 {% block content %}
 <h3>{{title|safe}}</h3>
+{% cache 604800 course_schedule title %}
 <div class="table-responsive">
     <table class="table display table-hover">
         {% for s in sched %}
@@ -61,4 +62,5 @@
         <tr><td colspan="2" height="25" class="noprint">&nbsp;</td></tr>
     </table>
 </div>
+{% endcache %}
 {% endblock %}
