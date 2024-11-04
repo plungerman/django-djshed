@@ -1,6 +1,5 @@
 django==4.2.15
 django-gmailapi-json-backend
-django_informixdb
 mysqlclient
 cryptography
 pymemcache
