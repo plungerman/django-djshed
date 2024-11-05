@@ -5,11 +5,38 @@ from django.conf import settings
 from django.http import  Http404
 from django.shortcuts import render
 from django.core.cache import cache
-from djimix.constants import TERM_LIST
-#from djimix.core.database import get_connection, xsql
 from djshed.constants import SCHEDULE_SQL
 from djshed.constants import DATES
 from djshed.models import Course
+
+
+TERM_LIST = {
+    'RA': 'Fall',
+    'RB': 'J-Term',
+    'RC': 'Spring',
+    'RD': 'Summer Pre-Session',
+    'RE': 'Summer',
+    'AA': 'Fall I',
+    'AB': 'Fall II ',
+    'AG': 'Winter',
+    'AK': 'Spring 1st 7 weeks',
+    'AM': 'Spring 2nd 7 weeks',
+    'AS': 'Summer I',
+    'AT': 'Summer II',
+    'GE': 'Summer',
+    'GA': 'Fall',
+    'GB': 'J-Term',
+    'TA': 'Fall',
+    'PA': 'Fall',
+    'YA': 'Fall',
+    'GC': 'Spring',
+    'TC': 'Spring',
+    'PC': 'Spring',
+    'YC': 'Spring',
+    'TE': 'Summer',
+    'PE': 'Summer',
+    'YE': 'Summer',
+}
 
 
 def get_sched():
