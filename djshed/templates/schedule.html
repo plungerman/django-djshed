@@ -49,9 +49,6 @@
                 {% endif %}
                 {% if s.bldg or s.max_reg %}
                     <br />
-                    {% if s.bldg and s.bldg != "ARR" %}
-                        Location: {{s.bldg}} {{s.room}} &nbsp;&nbsp;&nbsp;
-                    {% endif %}
                     {% if s.max_reg %}
                         Capacity: {{s.max_reg}}
                     {% endif %}
