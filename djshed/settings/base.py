@@ -149,19 +149,16 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN = ''
 SESSION_COOKIE_NAME = 'django_{0}_cookie'.format(PROJECT_APP)
 SESSION_COOKIE_AGE = 86400
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_NAME = 'django_djcmon_csrftoken'
 # auth backends
 AUTHENTICATION_BACKENDS = (
     'djauth.backends.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-LOGIN_URL = '{0}accounts/login/'.format(ROOT_URL)
-LOGOUT_URL = '{0}accounts/logout/'.format(ROOT_URL)
-LOGIN_REDIRECT_URL = ROOT_URL
-USE_X_FORWARDED_HOST = True
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_COOKIE_DOMAIN = ''
-SESSION_COOKIE_NAME = 'django_{0}_cookie'.format(PROJECT_APP)
-SESSION_COOKIE_AGE = 86400
 # gmail API settings
 EMAIL_FROM = ''
 GMAIL_USER = ''
