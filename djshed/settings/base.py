@@ -153,7 +153,7 @@ SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_NAME = 'django_djcmon_csrftoken'
+CSRF_COOKIE_NAME = 'django_{0}_csrftoken'.format(PROJECT_APP)
 # auth backends
 AUTHENTICATION_BACKENDS = (
     'djauth.backends.LDAPBackend',
