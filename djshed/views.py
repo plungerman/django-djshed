@@ -69,6 +69,10 @@ def schedule(request, program, term, year):
     # deal with old requests like:
     # /schedule/R/RC/2014&method%3Ddetail&dept%3D_GFW/
     year = year[0:4]
+    try:
+        year = int(year)
+    except Exception:
+        raise Http404
     if not program and not term and not year:
         raise Http404
     elif int(year) > 2022 and term != 'GE':
